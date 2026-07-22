@@ -1,0 +1,35 @@
+# Environment variables & secrets
+.env
+*.env
+backend/.env
+
+# Virtual environments
+venv/
+.venv/
+backend/venv/
+backend/.venv/
+
+# Node / Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Uploaded user files & temporary files
+uploads/
+backend/uploads/
+*.log
+pipeline_error.txt
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
