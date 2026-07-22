@@ -1,47 +1,27 @@
 services:
-  # 1. PostgreSQL + pgvector Database
-  - type: pserv
-    name: documind-db
-    env: docker
-    repo: https://github.com/ankane/pgvector
-    region: ohio
-    plan: starter
-    disk:
-      name: pgdata
-      mountPath: /var/lib/postgresql/data
-      sizeGB: 10
-    envVars:
-      - key: POSTGRES_DB
-        value: documind
-      - key: POSTGRES_USER
-        value: postgres
-      - key: POSTGRES_PASSWORD
-        generateValue: true
-
-  # 2. FastAPI Backend
+  # 1. FastAPI Backend (FREE plan)
   - type: web
     name: documind-api
     env: docker
     region: ohio
-    plan: starter
+    plan: free
     dockerfilePath: ./backend/Dockerfile
     envVars:
       - key: DATABASE_URL
-        fromService:
-          type: pserv
+        fromDatabase:
           name: documind-db
-          envVarKey: DATABASE_URL
+          property: connectionString
       - key: JWT_SECRET_KEY
         generateValue: true
       - key: GEMINI_API_KEY
-        sync: false # You must set this manually in the Render dashboard
+        sync: false # Set this in Render UI
 
-  # 3. Vite + React Frontend
+  # 2. Vite + React Frontend (FREE static site)
   - type: web
     name: documind-ui
     env: docker
     region: ohio
-    plan: starter
+    plan: free
     dockerfilePath: ./frontend/Dockerfile
     envVars:
       - key: VITE_API_URL
@@ -49,3 +29,11 @@ services:
           type: web
           name: documind-api
           envVarKey: RENDER_EXTERNAL_URL
+
+databases:
+  # 3. PostgreSQL + pgvector Database (FREE 90-day trial)
+  - name: documind-db
+    databaseName: documind
+    user: postgres
+    region: ohio
+    plan: free
