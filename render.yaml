@@ -1,5 +1,5 @@
 services:
-  # 1. FastAPI Backend (Native Python - 100% FREE)
+  # 1. FastAPI Backend (Native Python - FREE)
   - type: web
     name: documind-api
     env: python
@@ -10,15 +10,16 @@ services:
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DATABASE_URL
-        sync: false # Paste your database URL in Render UI
+        sync: false
       - key: JWT_SECRET_KEY
         generateValue: true
       - key: GEMINI_API_KEY
-        sync: false # Paste your Gemini API key in Render UI
+        sync: false
 
-  # 2. Vite + React Frontend (Static Site - 100% FREE)
-  - type: static
+  # 2. Vite + React Frontend (Static Site - FREE)
+  - type: web
     name: documind-ui
+    env: static
     region: ohio
     rootDir: frontend
     buildCommand: npm install && npm run build
