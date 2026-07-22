@@ -16,11 +16,10 @@ services:
       - key: GEMINI_API_KEY
         sync: false
 
-  # 2. Vite + React Frontend (Static Site - FREE)
+  # 2. Vite + React Frontend (Static Site - FREE - Global CDN)
   - type: web
     name: documind-ui
     env: static
-    region: ohio
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
