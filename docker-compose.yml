@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  # This is the "Pantry" we talked about
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: documind_db
+    environment:
+      # These pull the passwords from our .env file
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      # This opens the door so our Python code can talk to the database
+      - "5433:5432"
+    volumes:
+      # This ensures our data isn't deleted if the container turns off
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
