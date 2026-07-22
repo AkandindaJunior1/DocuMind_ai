@@ -31,9 +31,9 @@ services:
           envVarKey: RENDER_EXTERNAL_URL
 
 databases:
-  # 3. PostgreSQL + pgvector Database (FREE 90-day trial)
+  # 3. PostgreSQL Database (FREE trial)
   - name: documind-db
     databaseName: documind
-    user: postgres
+    user: documind_user
     region: ohio
     plan: free
