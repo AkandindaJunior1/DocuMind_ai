@@ -1,39 +1,31 @@
 services:
-  # 1. FastAPI Backend (FREE plan)
+  # 1. FastAPI Backend (Native Python - 100% FREE)
   - type: web
     name: documind-api
-    env: docker
+    env: python
     region: ohio
     plan: free
-    dockerfilePath: ./backend/Dockerfile
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: documind-db
-          property: connectionString
+        sync: false # Paste your database URL in Render UI
       - key: JWT_SECRET_KEY
         generateValue: true
       - key: GEMINI_API_KEY
-        sync: false # Set this in Render UI
+        sync: false # Paste your Gemini API key in Render UI
 
-  # 2. Vite + React Frontend (FREE static site)
-  - type: web
+  # 2. Vite + React Frontend (Static Site - 100% FREE)
+  - type: static
     name: documind-ui
-    env: docker
     region: ohio
-    plan: free
-    dockerfilePath: ./frontend/Dockerfile
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
         fromService:
           type: web
           name: documind-api
           envVarKey: RENDER_EXTERNAL_URL
-
-databases:
-  # 3. PostgreSQL Database (FREE trial)
-  - name: documind-db
-    databaseName: documind
-    user: documind_user
-    region: ohio
-    plan: free
